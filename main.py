@@ -23,7 +23,7 @@ def getProjectServices(projectName):
         if services:
             for service, cost in services.items():
                 projectGauge.labels(service, cost).set(cost)
-                push_to_gateway("pushgateway:9091", job="project_service", registry=projectRegistry)
+                push_to_gateway("pushgateway:9091", job=f"{projectName}_service", registry=projectRegistry)
     print(projectGauge)
 
 registry = CollectorRegistry()
@@ -42,6 +42,6 @@ print(gauge)
 
 push_to_gateway("pushgateway:9091", job="project_cost", registry=registry)
 
-# for projectName in projectNameList:
-#     getProjectServices(projectName)
+for projectName in projectNameList:
+    getProjectServices(projectName)
 
