@@ -1,4 +1,4 @@
-from prometheus_client import CollectorRegistry, Gauge, push_to_gateway, start_http_server
+from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 
 projectLists = {"ProjectA": 102, "ProjectB": 10,
                 "ProjectC": 25, "ProjectD": 82, "ProjectE": 75}
@@ -23,12 +23,10 @@ def getProjectServices(projectName):
         if services:
             for service, cost in services.items():
                 projectGauge.labels(service, cost).set(cost)
-                push_to_gateway("http://localhost:9091", job="project_service", registry=projectRegistry)
+                push_to_gateway("pushgateway:9091", job="project_service", registry=projectRegistry)
     print(projectGauge)
 
 registry = CollectorRegistry()
-
-start_http_server(9091, registry=registry)
 
 gauge = Gauge("Project_Spend_Cost", "XC3 Project Spend Cost",
               labelnames=["project_spend_project", "project_spend_cost"],
@@ -42,7 +40,7 @@ for project in projectLists.items():
 
 print(gauge)
 
-push_to_gateway("http://localhost:9091", job="pushgateway", registry=registry)
+push_to_gateway("pushgateway:9091", job="project_cost", registry=registry)
 
 # for projectName in projectNameList:
 #     getProjectServices(projectName)

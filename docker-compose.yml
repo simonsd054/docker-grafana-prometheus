@@ -1,11 +1,9 @@
 ---
 volumes:
   grafana-data: {}
-  prometheus-data:
-    driver: local
+  prometheus-data: {}
 
 services:
-
 
   # node_exporter:
   #   image: quay.io/prometheus/node-exporter:latest
@@ -28,7 +26,6 @@ services:
       - prometheus-data:/prometheus
     command: "--config.file=/etc/prometheus/prometheus.yml"
     restart: unless-stopped
-    network_mode: host
 
   grafana:
     image: grafana/grafana:latest
@@ -45,8 +42,6 @@ services:
   pushgateway:
     image: prom/pushgateway:latest
     container_name: pushgateway
-    # expose:
-    #   - 9091
     ports:
       - 9091:9091
     restart: unless-stopped
@@ -54,6 +49,4 @@ services:
   projectcost:
     image: project_cost:latest
     container_name: projectcost
-    depends_on:
-      - pushgateway
     restart: unless-stopped
