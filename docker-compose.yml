@@ -1,0 +1,59 @@
+---
+volumes:
+  grafana-data: {}
+  prometheus-data:
+    driver: local
+
+services:
+
+
+  # node_exporter:
+  #   image: quay.io/prometheus/node-exporter:latest
+  #   container_name: node_exporter
+  #   command:
+  #     - '--path.rootfs=/host'
+  #   network_mode: host
+  #   pid: host
+  #   restart: unless-stopped
+  #   volumes:
+  #     - '/:/host:ro,rslave'
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config:/etc/prometheus
+      - prometheus-data:/prometheus
+    command: "--config.file=/etc/prometheus/prometheus.yml"
+    restart: unless-stopped
+    network_mode: host
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - 3000:3000
+    user: '472'
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on: 
+      - prometheus
+    restart: unless-stopped
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: pushgateway
+    # expose:
+    #   - 9091
+    ports:
+      - 9091:9091
+    restart: unless-stopped
+
+  projectcost:
+    image: project_cost:latest
+    container_name: projectcost
+    depends_on:
+      - pushgateway
+    restart: unless-stopped
