@@ -26,22 +26,24 @@ def getProjectServices(projectName):
                 push_to_gateway("pushgateway:9091", job=f"{projectName}_service", registry=projectRegistry)
     print(projectGauge)
 
-registry = CollectorRegistry()
+def getProjects():
+    registry = CollectorRegistry()
 
-gauge = Gauge("Project_Spend_Cost", "XC3 Project Spend Cost",
-              labelnames=["project_spend_project", "project_spend_cost"],
-              registry=registry)
+    gauge = Gauge("Project_Spend_Cost", "XC3 Project Spend Cost",
+                labelnames=["project_spend_project", "project_spend_cost"],
+                registry=registry)
 
-projectNameList = list(projectLists.keys())
-for project in projectLists.items():
-    projectName = project[0]
-    projectCost = project[1]
-    gauge.labels(projectName, projectCost).set(projectCost)
+    projectNameList = list(projectLists.keys())
+    for project in projectLists.items():
+        projectName = project[0]
+        projectCost = project[1]
+        gauge.labels(projectName, projectCost).set(projectCost)
 
-print(gauge)
+    print(gauge)
 
-push_to_gateway("pushgateway:9091", job="project_cost", registry=registry)
+    push_to_gateway("pushgateway:9091", job="project_cost", registry=registry)
 
-for projectName in projectNameList:
-    getProjectServices(projectName)
+    for projectName in projectNameList:
+        getProjectServices(projectName)
 
+getProjects()

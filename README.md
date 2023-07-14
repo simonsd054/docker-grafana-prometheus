@@ -13,3 +13,15 @@ It saves data into prometheus using pushgateway and displays the data in grafana
     ```bash
     ./main.sh
     ```
+
+# How to stop?
+1. Run the script `stop.sh` using bash
+    ```bash
+    ./stop.sh
+    ```
+
+# Errors
+- If you face "permission denied" error when running the scripts, try making them executable first and then run them
+    ```bash
+    chmod +x <script-file>
+    ```
