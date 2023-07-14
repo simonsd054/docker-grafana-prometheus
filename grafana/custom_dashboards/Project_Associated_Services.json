@@ -24,8 +24,7 @@
   "panels": [
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "d2aa263d-fa5d-4f9b-8d5b-24c73216a394"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -97,8 +96,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "d2aa263d-fa5d-4f9b-8d5b-24c73216a394"
+            "type": "prometheus"
           },
           "editorMode": "code",
           "expr": "${ProjectName}_Services_Cost",
@@ -126,8 +124,7 @@
           "value": "ProjectC"
         },
         "datasource": {
-          "type": "prometheus",
-          "uid": "d2aa263d-fa5d-4f9b-8d5b-24c73216a394"
+          "type": "prometheus"
         },
         "definition": "query_result(Project_Spend_Cost)",
         "hide": 0,
@@ -154,7 +151,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "Associated Services",
-  "uid": "b2da92fa-47c1-4af5-98ff-f4766c338f30",
+  "uid": "associated-service-123",
   "version": 5,
   "weekStart": ""
 }
