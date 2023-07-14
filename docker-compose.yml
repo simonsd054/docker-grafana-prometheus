@@ -1,6 +1,5 @@
 ---
 volumes:
-  grafana-data: {}
   prometheus-data: {}
 
 services:
@@ -34,7 +33,9 @@ services:
       - 3000:3000
     user: '472'
     volumes:
-      - grafana-data:/var/lib/grafana
+      - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+      - ./grafana/custom_dashboards:/var/lib/grafana/dashboards
     depends_on: 
       - prometheus
     restart: unless-stopped
