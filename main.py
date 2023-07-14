@@ -1,7 +1,7 @@
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 
-projectLists = {"ProjectA": 102, "ProjectB": 10,
-                "ProjectC": 25, "ProjectD": 82, "ProjectE": 75}
+projectLists = {"ProjectA": 100, "ProjectB": 130,
+                "ProjectC": 160, "ProjectD": 190, "ProjectE": 220}
 
 projectServiceList = {
     "ProjectA": {"Services": {"Ec2": 10, "Ec2 Other": 20, "Amazon Simple Storage Service": 30, "Aws Key management service": 40}},
