@@ -53,7 +53,7 @@
           },
           "links": [
             {
-              "targetBlank": true,
+              "targetBlank": false,
               "title": "Project to Service",
               "url": "http://localhost:3000/d/associated-service-123/associated-services?orgId=1&var-ProjectName=${__data.fields.project_spend_project}"
             }
