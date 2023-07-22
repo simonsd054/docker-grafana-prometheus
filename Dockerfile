@@ -11,7 +11,8 @@ LABEL Maintainer="simon"
 WORKDIR /home
 
 #to COPY the remote file at working directory in container
-COPY main.py ./
+COPY project_spend_cost.py ./
+COPY project_cost_breakdown.py ./
 COPY run.sh ./
 # Now the structure looks like this '/usr/app/src/test.py'
 

@@ -39,4 +39,4 @@ services:
   projectcost:
     image: project_cost:latest
     container_name: projectcost
-    restart: unless-stopped
+    # restart: unless-stopped
