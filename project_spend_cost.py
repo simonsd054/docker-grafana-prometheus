@@ -55,8 +55,16 @@ def cost_of_project(ce_client, start_date, end_date):
         dict: The cost of the project, grouped by project tag.
     """
     try:
-        response = {'GroupDefinitions': [{'Type': 'TAG', 'Key': 'Project'}], 'ResultsByTime': [{'TimePeriod': {'Start': '2023-07-01', 'End': '2023-07-22'}, 'Total': {}, 'Groups': [{'Keys': ['Project$'], 'Metrics': {'UnblendedCost': {'Amount': '0.119965071', 'Unit': 'USD'}}}, {'Keys': [
-            'Project$projectsimon'], 'Metrics': {'UnblendedCost': {'Amount': '0.118026081', 'Unit': 'USD'}}}], 'Estimated': True}], 'DimensionValueAttributes': [], 'ResponseMetadata': {'RequestId': '9731e28f-7393-42e6-a069-2fa9749d1127', 'HTTPStatusCode': 200, 'HTTPHeaders': {'date': 'Fri, 21 Jul 2023 23:54:26 GMT', 'content-type': 'application/x-amz-json-1.1', 'content-length': '571', 'connection': 'keep-alive', 'x-amzn-requestid': '9731e28f-7393-42e6-a069-2fa9749d1127', 'cache-control': 'no-cache'}, 'RetryAttempts': 0}}
+        # response = {'GroupDefinitions': [{'Type': 'TAG', 'Key': 'Project'}], 'ResultsByTime': [{'TimePeriod': {'Start': '2023-07-01', 'End': '2023-07-22'}, 'Total': {}, 'Groups': [{'Keys': ['Project$'], 'Metrics': {'UnblendedCost': {'Amount': '0.119965071', 'Unit': 'USD'}}}, {'Keys': [
+        #     'Project$projectsimon'], 'Metrics': {'UnblendedCost': {'Amount': '0.118026081', 'Unit': 'USD'}}}], 'Estimated': True}], 'DimensionValueAttributes': [], 'ResponseMetadata': {'RequestId': '9731e28f-7393-42e6-a069-2fa9749d1127', 'HTTPStatusCode': 200, 'HTTPHeaders': {'date': 'Fri, 21 Jul 2023 23:54:26 GMT', 'content-type': 'application/x-amz-json-1.1', 'content-length': '571', 'connection': 'keep-alive', 'x-amzn-requestid': '9731e28f-7393-42e6-a069-2fa9749d1127', 'cache-control': 'no-cache'}, 'RetryAttempts': 0}}
+        response = ce_client.get_cost_and_usage(
+            TimePeriod={"Start": start_date, "End": end_date},
+            Granularity="MONTHLY",
+            Metrics=["UnblendedCost"],
+            GroupBy=[
+                {"Type": "TAG", "Key": "Project"},
+            ],
+        )
         return response
     except Exception as e:
         print(f"Error getting cost of project: {e}")

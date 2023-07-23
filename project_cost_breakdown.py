@@ -33,7 +33,7 @@ from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 #     logging.error("Error creating boto3 client for s3: " + str(e))
 
 
-def get_cost_and_usage_data(client, start, end, project_name):
+def get_cost_and_usage_data(client, start, end, project_name=""):
     """
     Retrieves the unblended cost of a given account within a specified time period
     using the AWS Cost Explorer API.
@@ -57,20 +57,20 @@ def get_cost_and_usage_data(client, start, end, project_name):
     """
     while True:
         try:
-            response = {'GroupDefinitions': [{'Type': 'DIMENSION', 'Key': 'SERVICE'}], 'ResultsByTime': [{'TimePeriod': {'Start': '2023-07-08', 'End': '2023-07-22'}, 'Total': {}, 'Groups': [{'Keys': ['EC2 - Other'], 'Metrics': {'UnblendedCost': {'Amount': '0.1180198417', 'Unit': 'USD'}}}, {'Keys': ['Amazon Elastic Compute Cloud - Compute'], 'Metrics': {'UnblendedCost': {'Amount': '0.0000060921', 'Unit': 'USD'}}}, {'Keys': ['Amazon Simple Notification Service'], 'Metrics': {'UnblendedCost': {'Amount': '0', 'Unit': 'USD'}}}, {'Keys': ['Amazon Simple Queue Service'], 'Metrics': {
-                'UnblendedCost': {'Amount': '0', 'Unit': 'USD'}}}, {'Keys': ['Amazon Simple Storage Service'], 'Metrics': {'UnblendedCost': {'Amount': '0.0000001472', 'Unit': 'USD'}}}], 'Estimated': True}], 'DimensionValueAttributes': [], 'ResponseMetadata': {'RequestId': 'ff4cb6a8-14e4-4975-808f-1edcf6e9902d', 'HTTPStatusCode': 200, 'HTTPHeaders': {'date': 'Sat, 22 Jul 2023 01:26:06 GMT', 'content-type': 'application/x-amz-json-1.1', 'content-length': '725', 'connection': 'keep-alive', 'x-amzn-requestid': 'ff4cb6a8-14e4-4975-808f-1edcf6e9902d', 'cache-control': 'no-cache'}, 'RetryAttempts': 0}}
-            # response = client.get_cost_and_usage(
-            #     TimePeriod={"Start": start, "End": end},
-            #     Granularity="MONTHLY",
-            #     Metrics=["UnblendedCost"],
-            #     GroupBy=[{"Type": "DIMENSION", "Key": "SERVICE"}],
-            #     Filter={
-            #         "Tags": {
-            #             "Key": "Project",
-            #             "Values": [project_name],
-            #         }
-            #     },
-            # )
+            # response = {'GroupDefinitions': [{'Type': 'DIMENSION', 'Key': 'SERVICE'}], 'ResultsByTime': [{'TimePeriod': {'Start': '2023-07-08', 'End': '2023-07-22'}, 'Total': {}, 'Groups': [{'Keys': ['EC2 - Other'], 'Metrics': {'UnblendedCost': {'Amount': '0.1180198417', 'Unit': 'USD'}}}, {'Keys': ['Amazon Elastic Compute Cloud - Compute'], 'Metrics': {'UnblendedCost': {'Amount': '0.0000060921', 'Unit': 'USD'}}}, {'Keys': ['Amazon Simple Notification Service'], 'Metrics': {'UnblendedCost': {'Amount': '0', 'Unit': 'USD'}}}, {'Keys': ['Amazon Simple Queue Service'], 'Metrics': {
+            #     'UnblendedCost': {'Amount': '0', 'Unit': 'USD'}}}, {'Keys': ['Amazon Simple Storage Service'], 'Metrics': {'UnblendedCost': {'Amount': '0.0000001472', 'Unit': 'USD'}}}], 'Estimated': True}], 'DimensionValueAttributes': [], 'ResponseMetadata': {'RequestId': 'ff4cb6a8-14e4-4975-808f-1edcf6e9902d', 'HTTPStatusCode': 200, 'HTTPHeaders': {'date': 'Sat, 22 Jul 2023 01:26:06 GMT', 'content-type': 'application/x-amz-json-1.1', 'content-length': '725', 'connection': 'keep-alive', 'x-amzn-requestid': 'ff4cb6a8-14e4-4975-808f-1edcf6e9902d', 'cache-control': 'no-cache'}, 'RetryAttempts': 0}}
+            response = client.get_cost_and_usage(
+                TimePeriod={"Start": start, "End": end},
+                Granularity="MONTHLY",
+                Metrics=["UnblendedCost"],
+                GroupBy=[{"Type": "DIMENSION", "Key": "SERVICE"}],
+                Filter={
+                    "Tags": {
+                        "Key": "Project",
+                        "Values": [project_name],
+                    }
+                },
+            )
             return response
         except client.exceptions.LimitExceededException:
             # Sleep for 5 seconds and try again
@@ -129,7 +129,7 @@ def lambda_handler(event, context):
             )
         else:
             cost_and_usage = get_cost_and_usage_data(
-                ce, start_date, end_date, ""
+                ce, start_date, end_date
             )
     except Exception as e:
         logging.error(
