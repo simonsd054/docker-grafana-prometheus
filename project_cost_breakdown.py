@@ -103,7 +103,7 @@ def lambda_handler(event, context):
     start_date = str(date.today() - timedelta(days=cost_by_days))
 
     # Initializing the list
-    top_5_resources = []
+    # top_5_resources = []
     parent_list = []
     # try:
     #     # Get the list of all regions
@@ -148,10 +148,10 @@ def lambda_handler(event, context):
     # print("sorted_cost_data", sorted_cost_data)
 
     # Get the top 5 most expensive resources
-    top_5_resources = sorted_cost_data[:5]
+    # top_5_resources = sorted_cost_data[:5]
 
     # Print the top 5 most expensive resources and their costs
-    for resource in top_5_resources:
+    for resource in sorted_cost_data:
         resourcedata = {
             # "Account": account_detail,
             # "Region": region,

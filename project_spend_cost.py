@@ -90,7 +90,7 @@ def lambda_handler(event, context):
         response = cost_of_project(ce_client, start_date, end_date)
         project_dict = {}
 
-        for group in response["ResultsByTime"][0]["Groups"]:
+        for group in response["ResultsByTime"][1]["Groups"]:
             tag_key = group["Keys"][0]
             cost = group["Metrics"]["UnblendedCost"]["Amount"]
 

@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -65,8 +65,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 13,
-        "w": 16,
+        "h": 11,
+        "w": 24,
         "x": 0,
         "y": 0
       },
@@ -99,7 +99,7 @@
             "type": "prometheus"
           },
           "editorMode": "code",
-          "expr": "${ProjectName}_Services_Cost",
+          "expr": "topk(5, sort_desc(${ProjectName}_Services_Cost))",
           "format": "table",
           "instant": false,
           "legendFormat": "{{project_spend_services}}",
@@ -109,6 +109,105 @@
       ],
       "title": "Associated Services of ${ProjectName}",
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 15,
+        "x": 0,
+        "y": 11
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.0.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sort_desc(${ProjectName}_Services_Cost)",
+          "format": "table",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "All services cost",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "job": true,
+              "project_spend_cost": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
     }
   ],
   "refresh": "",
@@ -119,9 +218,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "ProjectC",
-          "value": "ProjectC"
+          "selected": false,
+          "text": "sujanb_project",
+          "value": "sujanb_project"
         },
         "datasource": {
           "type": "prometheus"
@@ -151,7 +250,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "Associated Services",
-  "uid": "associated-service-123",
-  "version": 5,
+  "uid": "associated-service-12",
+  "version": 4,
   "weekStart": ""
 }

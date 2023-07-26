@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 5,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -55,7 +55,7 @@
             {
               "targetBlank": false,
               "title": "Project to Service",
-              "url": "http://localhost:3000/d/associated-service-123/associated-services?orgId=1&var-ProjectName=${__data.fields.project_spend_project}"
+              "url": "http://localhost:3000/d/associated-service-12/associated-services?orgId=1&var-ProjectName=${__data.fields.project_spend_project}"
             }
           ],
           "mappings": [],
@@ -136,6 +136,6 @@
   "timepicker": {},
   "timezone": "",
   "title": "Project_Cost",
-  "version": 7,
+  "version": 4,
   "weekStart": ""
 }
