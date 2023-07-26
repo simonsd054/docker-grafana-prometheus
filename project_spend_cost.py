@@ -99,7 +99,8 @@ def lambda_handler(event, context):
             if tag_value == "":
                 tag_value = "Others"
             print(tag_value)
-            g.labels(tag_value, cost).set(cost)
+            tag_value_for_metric = tag_value.replace("-", "_")
+            g.labels(tag_value_for_metric, cost).set(cost)
             project_dict[tag_value] = cost
 
         # Convert the dictionary to JSON

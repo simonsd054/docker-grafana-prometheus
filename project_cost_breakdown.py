@@ -170,8 +170,9 @@ def lambda_handler(event, context):
     # gauge as labels for service, region, and cost.
     try:
         registry = CollectorRegistry()
+        project_name_for_gauge = project_name.replace("-", "_")
         gauge = Gauge(
-            f"{project_name}_Services_Cost",
+            f"{project_name_for_gauge}_Services_Cost",
             "AWS Services Cost Detail",
             labelnames=["project_spend_services", "project_spend_cost"],
             registry=registry,
